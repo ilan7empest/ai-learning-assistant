@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const httpAPI = axios.create({
-  baseURL: 'https://ai-learning-assistant-k1s0.onrender.com/api',
+  baseURL: import.meta.env.VITE_APP_API_URL || 'http://localhost:5001' + '/api',
   timeout: 80000,
   headers: {
     'Content-Type': 'application/json',

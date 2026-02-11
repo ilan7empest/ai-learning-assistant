@@ -32,7 +32,7 @@ const documentController = {
       // Cunstruct URL for the uploaded file
       const baseUrl =
         process.env.NODE_ENV === 'production'
-          ? 'https://ai-learning-assistant-k1s0.onrender.com'
+          ? process.env.BACKEND_API_URL
           : `http://localhost:${process.env.PORT || 5000}`;
       const fileUrl = `${baseUrl}/uploads/documents/${req.file.filename}`;
 
