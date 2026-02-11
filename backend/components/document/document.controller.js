@@ -30,7 +30,10 @@ const documentController = {
       }
 
       // Cunstruct URL for the uploaded file
-      const baseUrl = `http://localhost:${process.env.PORT || 5001}`;
+      const baseUrl =
+        process.env.NODE_ENV === 'production'
+          ? 'https://ai-learning-assistant-k1s0.onrender.com'
+          : `http://localhost:${process.env.PORT || 5000}`;
       const fileUrl = `${baseUrl}/uploads/documents/${req.file.filename}`;
 
       // Create a new Document entry in the database
@@ -44,13 +47,11 @@ const documentController = {
       });
 
       // Proccess PDF in background (in production, use a job queue)
-      const { chunks, text } = await processPDF(req.file.path).catch(
-        async (err) => {
-          console.error('Error processing PDF:', err);
-          // Update document status to 'failed'
-          await Document.findByIdAndUpdate(document._id, { status: 'failed' });
-        },
-      );
+      const { chunks, text } = await processPDF(req.file.path).catch(async (err) => {
+        console.error('Error processing PDF:', err);
+        // Update document status to 'failed'
+        await Document.findByIdAndUpdate(document._id, { status: 'failed' });
+      });
 
       // Here you would typically generate embeddings and store them
       // For simplicity, we'll skip that step
