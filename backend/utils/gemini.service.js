@@ -155,7 +155,7 @@ export const generateQuiz = async (text, numQuestions = 10) => {
  */
 export const generateSummary = async (text) => {
   const prompt = `Provide a concise summary of the following text, highlighting the key concepts, main ideas, and important points.
-  Keep the summary clear and structured.
+  Keep the summary clear and structured. Response should include English and traditional Chinese translation.
 
   Text:
   ${text.substring(0, 20000)}`; // Limit text to first 20000 characters
@@ -165,7 +165,7 @@ export const generateSummary = async (text) => {
       model: 'gemini-2.5-flash-lite',
       contents: prompt,
     });
-
+    console.log('first', response.text);
     return response.text.trim();
   } catch (error) {
     console.error('Error generating summary:', error);
